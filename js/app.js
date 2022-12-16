@@ -57,8 +57,12 @@ const llenarSelect = () => {
 //filtra en base a la busqueda
 const filtrarAuto = () => {
     const resultado = autos.filter(filtrarMarca).filter(filtrarYear).filter(filtrarMinimo).filter(filtrarMaximo).filter(filtrarPuertas).filter(filtrarTransmision).filter(filtrarColor)
-    mostrarAutos(resultado)
-    //console.log(resultado);
+    //verificar si hay resultado para la busqueda
+    if (resultado.length) {
+        mostrarAutos(resultado)
+    }else {
+        noResultado()
+    }
 }
 //funciones de filtrado
 const filtrarMarca = auto => {
@@ -118,6 +122,15 @@ const limpiar = () => {
     while (resultado.firstChild){
         resultado.removeChild(resultado.firstChild);
     }
+}
+//Cuando no hay resultado para la busqueda
+const noResultado = () => {
+    limpiar()
+
+    const noResultado = document.createElement('DIV');
+    noResultado.classList.add('alerta', 'error');
+    noResultado.textContent = 'No Hay Resultado, Intenta con otros términos de Búsqueda'
+    resultado.appendChild(noResultado)
 }
 
 
