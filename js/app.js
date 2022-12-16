@@ -26,7 +26,9 @@ const datosBusqueda = {
 
 //FUNCIONES
 //mostar autos en el html
-const mostrarAutos = () => {
+const mostrarAutos = autos => {
+    //limpiar HTML
+    limpiar()
     //recorer db por cada auto
     autos.forEach(auto => {
         //distructuring
@@ -54,9 +56,11 @@ const llenarSelect = () => {
 }
 //filtra en base a la busqueda
 const filtrarAuto = () => {
-    const resultado = autos.filter(filtrarMarca)
-    console.log(resultado);
+    const resultado = autos.filter(filtrarMarca).filter(filtrarYear)
+    mostrarAutos(resultado)
+    //console.log(resultado);
 }
+
 const filtrarMarca = auto => {
     const {marca} = datosBusqueda;
     //verificar si existe, lo que filtramos del select
@@ -66,12 +70,26 @@ const filtrarMarca = auto => {
     //si no seleciono nada, retorna el auto completo
     return auto
 }
+const filtrarYear = auto => {
+    const {year} = datosBusqueda;
+    if (year ){
+        return auto.year === year;
+    }
+    return auto
+}
+//limpiar HTML
+const limpiar = () => {
+    //si es que tiene un elemento, lo borra
+    while (resultado.firstChild){
+        resultado.removeChild(resultado.firstChild);
+    }
+}
 
 
 //EVENT0S
 document.addEventListener("DOMContentLoaded", () => {
     //Muestra los autos al cargar
-    mostrarAutos();
+    mostrarAutos(autos);
     //LLena las opciones de años
     llenarSelect()
 });
@@ -81,7 +99,9 @@ marca.addEventListener("change", e => {
     filtrarAuto();
 })
 year.addEventListener("change", e => {
-    datosBusqueda.year = e.target.value
+    //parseInt, ya que viene como strings
+    datosBusqueda.year = parseInt(e.target.value)
+    filtrarAuto(); 
 })
 minimo.addEventListener("change", e => {
     datosBusqueda.minimo = e.target.value
