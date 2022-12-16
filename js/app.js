@@ -56,11 +56,11 @@ const llenarSelect = () => {
 }
 //filtra en base a la busqueda
 const filtrarAuto = () => {
-    const resultado = autos.filter(filtrarMarca).filter(filtrarYear)
+    const resultado = autos.filter(filtrarMarca).filter(filtrarYear).filter(filtrarMinimo).filter(filtrarMaximo).filter(filtrarPuertas).filter(filtrarTransmision).filter(filtrarColor)
     mostrarAutos(resultado)
     //console.log(resultado);
 }
-
+//funciones de filtrado
 const filtrarMarca = auto => {
     const {marca} = datosBusqueda;
     //verificar si existe, lo que filtramos del select
@@ -74,6 +74,41 @@ const filtrarYear = auto => {
     const {year} = datosBusqueda;
     if (year ){
         return auto.year === year;
+    }
+    return auto
+}
+const filtrarMinimo = auto => {
+    const {minimo} = datosBusqueda;
+    if (minimo) {
+        return auto.precio >= minimo;
+    }
+    return auto
+}
+const filtrarMaximo = auto => {
+    const {maximo} = datosBusqueda;
+    if (maximo) {
+        return auto.precio <= maximo;
+    }
+    return auto
+}
+const filtrarPuertas = auto => {
+    const {puertas} = datosBusqueda;
+    if (puertas) {
+        return auto.puertas == puertas
+    }
+    return auto
+}
+const filtrarTransmision = auto => {
+    const {transmision} = datosBusqueda;
+    if (transmision) {
+        return auto.transmision == transmision
+    }
+    return auto
+}
+const filtrarColor = auto => {
+    const {color} = datosBusqueda;
+    if (color) {
+        return auto.color == color
     }
     return auto
 }
@@ -105,16 +140,21 @@ year.addEventListener("change", e => {
 })
 minimo.addEventListener("change", e => {
     datosBusqueda.minimo = e.target.value
+    filtrarAuto(); 
 })
 maximo.addEventListener("change", e => {
     datosBusqueda.maximo = e.target.value
+    filtrarAuto(); 
 })
 puertas.addEventListener("change", e => {
     datosBusqueda.puertas = e.target.value
+    filtrarAuto(); 
 })
 transmision.addEventListener("change", e => {
     datosBusqueda.transmision = e.target.value
+    filtrarAuto(); 
 })
 color.addEventListener("change", e => {
     datosBusqueda.color = e.target.value
+    filtrarAuto(); 
 })
